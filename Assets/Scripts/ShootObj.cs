@@ -6,6 +6,7 @@ using UnityEngine;
 public class ShootObj : MonoBehaviour
 {
     [SerializeField] float shootSpeed;
+    [SerializeField] ParticleSystem destroyEffect;
 
     Vector3 movementDir = Vector3.zero;
     Rigidbody rb;
@@ -25,6 +26,9 @@ public class ShootObj : MonoBehaviour
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.tag != "Player")
+        {
+            Instantiate(destroyEffect, transform.position, Quaternion.identity);
             Destroy(this.gameObject);
+        }
     }
 }
