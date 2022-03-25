@@ -12,6 +12,8 @@ public class Enemy : MonoBehaviour
     ShootComponent shootComponent;
     CapsuleCollider enemyCollider;
 
+    Animator animator;
+
     bool canShoot = true;
 
     void Start()
@@ -24,14 +26,19 @@ public class Enemy : MonoBehaviour
         shootComponent.SetIgnoreList(new List<string>() { "Enemy" });
 
         enemyCollider = GetComponent<CapsuleCollider>();
+
+        animator = GetComponent<Animator>();
     }
 
     private void Update()
     {
         agent.SetDestination(target.position);
+        transform.LookAt(target);
 
         if (agent.remainingDistance <= agent.stoppingDistance)
         {
+            animator.SetTrigger("Idle");
+
             if (canShoot)
             {
                 shootComponent.Shoot(agent.transform.position + enemyCollider.center, target.position);
@@ -39,6 +46,8 @@ public class Enemy : MonoBehaviour
                 Invoke("Reload", delayTime);
             }
         }
+        else
+            animator.SetTrigger("Run");
     }
 
     private void Reload()
