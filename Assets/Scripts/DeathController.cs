@@ -6,7 +6,6 @@ public class DeathController : MonoBehaviour
 {
     [SerializeField] int secBeforeDie;
 
-    public static event System.Action PlayerDiedEvent;
 
     // Start is called before the first frame update
     void Start()
@@ -35,7 +34,6 @@ public class DeathController : MonoBehaviour
     {
         yield return new WaitForSeconds(sec);
 
-        Debug.Log("Игрок умер");
-        PlayerDiedEvent?.Invoke();
+        FindObjectOfType<PlayerLogic>().Die();
     }
 }

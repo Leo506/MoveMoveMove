@@ -25,6 +25,7 @@ public class GameController : MonoBehaviour
     public void Victory()
     {
         VictoryEvent?.Invoke();
+        Destroy(FindObjectOfType<PlayerLogic>().gameObject);
     }
 
     public void Failed()

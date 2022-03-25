@@ -21,9 +21,12 @@ public class PlayerLogic : MonoBehaviour, IGetDamage
         PlayerHPChangedEvent?.Invoke(currentHP, PlayerData.Instance.maxHP);
 
         if (currentHP <= 0) 
-        {
-            PlayerDiedEvent?.Invoke();
-            Destroy(this.gameObject);
-        }
+            Die();
+    }
+
+    public void Die()
+    {
+        PlayerDiedEvent?.Invoke();
+        Destroy(this.gameObject);
     }
 }
