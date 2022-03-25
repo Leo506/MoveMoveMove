@@ -19,7 +19,6 @@ public class ShootObj : MonoBehaviour
 
     private void FixedUpdate()
     {
-        Debug.Log(movementDir);
         rb.velocity = movementDir * shootSpeed * Time.fixedDeltaTime;
     }
 
