@@ -20,6 +20,7 @@ public class Enemy : MonoBehaviour, IGetDamage
     private float hp = 100;
 
     public static event System.Action EnemyDiedEvent;
+    public static event System.Action<Enemy> EnemyDied;
 
     void Start()
     {
@@ -90,6 +91,7 @@ public class Enemy : MonoBehaviour, IGetDamage
         if (hp <= 0)
         {
             EnemyDiedEvent?.Invoke();
+            EnemyDied?.Invoke(this);
             Destroy(this.gameObject);
         }
     }
