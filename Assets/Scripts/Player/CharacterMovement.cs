@@ -12,6 +12,7 @@ enum MovementStates
 public class CharacterMovement : MonoBehaviour
 {
     private MovementStates currentMovementState = MovementStates.IDLE;
+    private bool canMove = true;
 
     public static event System.Action StartRunEvent;
     public static event System.Action StopRunEvent;
@@ -19,6 +20,9 @@ public class CharacterMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (!canMove)
+            return;
+
         Vector3 movement = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
         if (movement != Vector3.zero)
         {
@@ -40,5 +44,18 @@ public class CharacterMovement : MonoBehaviour
                 StopRunEvent?.Invoke();
             }
         }
+    }
+
+    public void ForceStop(float duration)
+    {
+        canMove = false;
+        currentMovementState = MovementStates.IDLE;
+        StopRunEvent?.Invoke();
+        Invoke("RestoreMoveAbility", duration);
+    }
+
+    private void RestoreMoveAbility()
+    {
+        canMove = true;
     }
 }
