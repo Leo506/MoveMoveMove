@@ -13,7 +13,7 @@ public class ShootObj : MonoBehaviour
     
     private Rigidbody rb;
 
-    private List<string> ignoreObjTags = new List<string>() { "Player" };
+    private List<string> ignoreObjTags;
 
     private float bornTime;
 
@@ -22,11 +22,14 @@ public class ShootObj : MonoBehaviour
         ignoreObjTags = ignoreList;
     }
 
-    public void StartMove(Vector3 dir)
+    public void StartMove(Vector3 dir, List<string> ignoreList = null)
     {
         rb = GetComponent<Rigidbody>();
         movementDir = dir.normalized;
         bornTime = Time.time;
+
+        if (ignoreList != null)
+            ignoreObjTags = ignoreList;
     }
 
     private void FixedUpdate()
@@ -45,8 +48,20 @@ public class ShootObj : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
+        string tmp = "";
+        foreach (var item in ignoreObjTags)
+        {
+            tmp += item + " ";
+        }
+
+        Debug.Log(tmp);
+
         if (ignoreObjTags.Contains(collision.collider.tag))
             return;
+
+        IGetDamage objToGetDamage = collision.gameObject.GetComponent<IGetDamage>();
+        if (objToGetDamage != null)
+            objToGetDamage.GetDamage(10);
 
         DestroyShootObj();
     }

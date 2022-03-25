@@ -18,6 +18,8 @@ public class PlayerData : MonoBehaviour
 
     public static PlayerData Instance;
 
+    public float maxHP;
+
     void Awake()
     {
         if (Instance != this && Instance != null)

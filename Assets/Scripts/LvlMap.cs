@@ -11,6 +11,10 @@ public class LvlMap : MonoBehaviour
     void Start()
     {
         surface = GetComponent<NavMeshSurface>();
+    }
+
+    public void BuilNavMesh()
+    {
         surface.BuildNavMesh();
     }
 

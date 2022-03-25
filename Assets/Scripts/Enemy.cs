@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class Enemy : MonoBehaviour
+public class Enemy : MonoBehaviour, IGetDamage
 {
     [SerializeField] float delayTime;
 
@@ -15,6 +15,10 @@ public class Enemy : MonoBehaviour
     Animator animator;
 
     bool canShoot = true;
+
+    private float hp = 100;
+
+    public static event System.Action EnemyDiedEvent;
 
     void Start()
     {
@@ -28,10 +32,20 @@ public class Enemy : MonoBehaviour
         enemyCollider = GetComponent<CapsuleCollider>();
 
         animator = GetComponent<Animator>();
+
+        GameController.FailedEvent += OnPlayerFailed;
+    }
+
+    private void OnDestroy()
+    {
+        GameController.FailedEvent -= OnPlayerFailed;
     }
 
     private void Update()
     {
+        if (target == null)
+            return;
+
         agent.SetDestination(target.position);
         transform.LookAt(target);
 
@@ -55,4 +69,18 @@ public class Enemy : MonoBehaviour
         canShoot = true;
     }
 
+    public void GetDamage(float damage)
+    {
+        hp -= damage;
+        if (hp <= 0)
+        {
+            EnemyDiedEvent?.Invoke();
+            Destroy(this.gameObject);
+        }
+    }
+
+    private void OnPlayerFailed()
+    {
+        canShoot = false;
+    }
 }

@@ -8,11 +8,10 @@ public class ShootComponent : MonoBehaviour
 
     Camera mainCamera;
 
-    List<string> ignoreList;
+    List<string> ignoreList = new List<string>() { "Player" };
 
-    private void Start()
+private void Start()
     {
-        ignoreList = new List<string>();
         mainCamera = Camera.main;
     }
 
@@ -55,7 +54,7 @@ public class ShootComponent : MonoBehaviour
         shoot.gameObject.transform.position = from;
         if (ignoreList.Count != 0)
             shoot.SetIgnoreList(ignoreList);
-        shoot.StartMove(dir);
+        shoot.StartMove(dir, ignoreList);
     }
 
     public void SetIgnoreList(List<string> ignoreList)
