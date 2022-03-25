@@ -31,10 +31,10 @@ public class ShootObj : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (!ignoreObjTags.Contains(collision.collider.tag))
-        {
-            Instantiate(destroyEffect, transform.position, Quaternion.identity);
-            Destroy(this.gameObject);
-        }
+        if (ignoreObjTags.Contains(collision.collider.tag))
+            return;
+
+        Instantiate(destroyEffect, transform.position, Quaternion.identity);
+        Destroy(this.gameObject);
     }
 }
