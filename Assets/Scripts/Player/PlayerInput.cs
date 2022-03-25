@@ -4,13 +4,25 @@ using UnityEngine;
 
 public class PlayerInput : MonoBehaviour
 {
+    [SerializeField] float delayTime;
+    bool canShoot = true;
 
     // Update is called once per frame
     void Update()
     {
         if (Input.GetMouseButtonDown(0))
         {
-            PlayerData.Instance.shootComponent.Shoot(PlayerData.Instance.CorrectPlayerPosition);
+            if (canShoot)
+            {
+                PlayerData.Instance.shootComponent.Shoot(PlayerData.Instance.CorrectPlayerPosition);
+                canShoot = false;
+                Invoke("Reload", delayTime);
+            }
         }
+    }
+
+    private void Reload()
+    {
+        canShoot = true;
     }
 }
