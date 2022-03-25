@@ -23,7 +23,13 @@ public class CharacterMovement : MonoBehaviour
         if (!canMove)
             return;
 
-        Vector3 movement = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
+        float vSpeed;
+        if (PlayerData.Instance.characterController.isGrounded)
+            vSpeed = 0;
+        else
+            vSpeed = -9.8f;
+
+        Vector3 movement = new Vector3(Input.GetAxis("Horizontal"), vSpeed, Input.GetAxis("Vertical"));
         if (movement != Vector3.zero)
         {
             if (currentMovementState != MovementStates.RUN)
@@ -33,7 +39,7 @@ public class CharacterMovement : MonoBehaviour
             }
 
             PlayerData.Instance.characterController.Move(movement * Time.deltaTime * PlayerData.Instance.CharacterSpeed);
-            transform.rotation = Quaternion.LookRotation(movement);
+            transform.rotation = Quaternion.LookRotation(new Vector3(movement.x, 0,  movement.z));
         }
 
         else

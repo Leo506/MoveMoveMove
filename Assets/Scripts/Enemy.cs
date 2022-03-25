@@ -6,6 +6,7 @@ using UnityEngine.AI;
 public class Enemy : MonoBehaviour, IGetDamage
 {
     [SerializeField] float delayTime;
+    [SerializeField] bool isStatic = false;
 
     NavMeshAgent agent;
     Transform target;
@@ -46,13 +47,10 @@ public class Enemy : MonoBehaviour, IGetDamage
         if (target == null)
             return;
 
-        agent.SetDestination(target.position);
         transform.LookAt(target);
 
-        if (agent.remainingDistance <= agent.stoppingDistance)
+        if (isStatic)
         {
-            animator.SetTrigger("Idle");
-
             if (canShoot)
             {
                 shootComponent.Shoot(agent.transform.position + enemyCollider.center, target.position);
@@ -61,7 +59,24 @@ public class Enemy : MonoBehaviour, IGetDamage
             }
         }
         else
-            animator.SetTrigger("Run");
+        {
+            agent.SetDestination(target.position);
+
+
+            if (agent.remainingDistance <= agent.stoppingDistance)
+            {
+                animator.SetTrigger("Idle");
+
+                if (canShoot)
+                {
+                    shootComponent.Shoot(agent.transform.position + enemyCollider.center, target.position);
+                    canShoot = false;
+                    Invoke("Reload", delayTime);
+                }
+            }
+            else
+                animator.SetTrigger("Run");
+        }
     }
 
     private void Reload()
