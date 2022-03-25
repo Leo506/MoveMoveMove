@@ -11,6 +11,13 @@ public class ShootObj : MonoBehaviour
     Vector3 movementDir = Vector3.zero;
     Rigidbody rb;
 
+    private List<string> ignoreObjTags = new List<string>() { "Player" };
+
+    public void SetIgnoreList(List<string> ignoreList)
+    {
+        ignoreObjTags = ignoreList;
+    }
+
     public void StartMove(Vector3 dir)
     {
         rb = GetComponent<Rigidbody>();
@@ -24,7 +31,7 @@ public class ShootObj : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.tag != "Player")
+        if (!ignoreObjTags.Contains(collision.collider.tag))
         {
             Instantiate(destroyEffect, transform.position, Quaternion.identity);
             Destroy(this.gameObject);
