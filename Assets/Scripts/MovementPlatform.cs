@@ -9,14 +9,12 @@ public class MovementPlatform : MonoBehaviour
 
     int currentPointIndex = 0;
     int changer = 1;
-    Transform target;
 
     Vector3 direction;
 
     // Start is called before the first frame update
     void Start()
     {
-        target = pathPoints[currentPointIndex];
         direction = pathPoints[currentPointIndex].position - transform.position;
         direction = (new Vector3(direction.x, 0, direction.z)).normalized;
     }
