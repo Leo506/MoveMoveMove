@@ -31,6 +31,11 @@ private void Start()
         CreateShoot(from, dir);
     }
 
+    public void ShootByDirection(Vector3 from, Vector3 dir)
+    {
+        CreateShoot(from, dir);
+    }
+
     private bool GetDirectionFromInput(Vector3 from, out Vector3 direction)
     {
         var ray = mainCamera.ScreenPointToRay(Input.mousePosition);
