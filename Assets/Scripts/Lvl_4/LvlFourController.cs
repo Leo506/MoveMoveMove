@@ -24,6 +24,8 @@ public class LvlFourController : GameController
 
     private void TalkAboutBFG()
     {
+        death.StopCountDown();
+        Destroy(death.gameObject);
         dialog.StartDialog(XmlParser.GetTextFromXml(4, 1));
         Invoke("Victory", 3);
     }

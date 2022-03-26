@@ -25,7 +25,7 @@ public class DeathController : MonoBehaviour
         StartCoroutine(CountDown(secBeforeDie));
     }
 
-    private void StopCountDown()
+    public void StopCountDown()
     {
         StopAllCoroutines();
     }
@@ -34,6 +34,8 @@ public class DeathController : MonoBehaviour
     {
         yield return new WaitForSeconds(sec);
 
-        FindObjectOfType<PlayerLogic>().Die();
+        var player = FindObjectOfType<PlayerLogic>();
+        if (player != null)
+            player.Die();
     }
 }

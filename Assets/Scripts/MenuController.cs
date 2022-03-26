@@ -13,4 +13,9 @@ public class MenuController : MonoBehaviour
             dialog.StartDialog(XmlParser.GetTextFromXml(0, 1));
     }
 
+    public void Quit()
+    {
+        Application.Quit();
+    }
+
 }
