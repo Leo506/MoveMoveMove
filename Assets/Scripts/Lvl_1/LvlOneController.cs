@@ -6,7 +6,6 @@ public class LvlOneController : GameController
 {
     [SerializeField] DialogController dialog;
     [SerializeField] GameObject secondPartOfLevel;
-    [SerializeField] LvlMap map;
     [SerializeField] int countOfEnemies;
     int phraseId = 1;
 
@@ -30,7 +29,6 @@ public class LvlOneController : GameController
     private void SecondPart()
     {
         secondPartOfLevel.SetActive(true);
-        map.BuilNavMesh();
         phraseId++;
         dialog.StartDialog(XmlParser.GetTextFromXml(1, phraseId));
     }
