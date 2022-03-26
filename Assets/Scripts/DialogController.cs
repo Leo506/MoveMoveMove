@@ -25,7 +25,7 @@ public class DialogController : MonoBehaviour
             yield return new WaitForSeconds(0.01f);
         }
 
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSeconds(5);
         dialogCanvas.enabled = false;
     }
 }

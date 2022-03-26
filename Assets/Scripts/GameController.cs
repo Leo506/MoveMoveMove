@@ -42,7 +42,7 @@ public class GameController : MonoBehaviour
 
     public void ReturnToMenu()
     {
-        //TODO создать сцену меню
+        SceneManager.LoadScene("Menu");
     }
 
     public void Quit()
