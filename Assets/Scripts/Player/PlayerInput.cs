@@ -19,6 +19,9 @@ public class PlayerInput : MonoBehaviour
                 Invoke("Reload", delayTime);
             }
         }
+
+        if (Input.GetKeyDown(KeyCode.F))
+            PlayerData.Instance.playerLogic.UseObj();
     }
 
     private void Reload()

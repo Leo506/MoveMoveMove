@@ -9,6 +9,8 @@ public class PlayerLogic : MonoBehaviour, IGetDamage
     public static event System.Action<float, float> PlayerHPChangedEvent;
     public static event System.Action PlayerDiedEvent;
 
+    private IUsable currentUsableObj;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -28,5 +30,22 @@ public class PlayerLogic : MonoBehaviour, IGetDamage
     {
         PlayerDiedEvent?.Invoke();
         Destroy(this.gameObject);
+    }
+
+    public void UseObj()
+    {
+        if (currentUsableObj != null)
+            currentUsableObj.Use();
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        currentUsableObj = other.GetComponent<IUsable>();
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.GetComponent<IUsable>() != null)
+            currentUsableObj = null;
     }
 }

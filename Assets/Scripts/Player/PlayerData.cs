@@ -6,6 +6,7 @@ public class PlayerData : MonoBehaviour
 {
     public CharacterController characterController { get; private set; }
     public ShootComponent shootComponent { get; private set; }
+    public PlayerLogic playerLogic { get; private set; }
     public Vector3 CorrectPlayerPosition
     {
         get
@@ -29,6 +30,7 @@ public class PlayerData : MonoBehaviour
 
         characterController = GetComponent<CharacterController>();
         shootComponent = GetComponent<ShootComponent>();
+        playerLogic = GetComponent<PlayerLogic>();
     }
 
 }
