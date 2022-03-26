@@ -12,7 +12,7 @@ public enum ProgressState
 
 public class Progress : MonoBehaviour
 {
-    private static ProgressState[] currentStates = new ProgressState[]
+    public static ProgressState[] currentStates = new ProgressState[]
     {
         ProgressState.NOT_COMPLETE,
         ProgressState.NO_ACCESS,
@@ -21,11 +21,8 @@ public class Progress : MonoBehaviour
         ProgressState.NO_ACCESS
     };
 
-    static bool isFirstGame = true;
-    public static bool IsFirstGame
-    {
-        get => isFirstGame;
-    }
+
+    public static bool IsFirstGame = true;
 
     [SerializeField] Button[] lvlButtons;
 
@@ -46,15 +43,10 @@ public class Progress : MonoBehaviour
     public static void CompleteLvl(int lvl)
     {
         if (IsFirstGame)
-            isFirstGame = false;
+            IsFirstGame = false;
 
         currentStates[lvl - 1] = ProgressState.COMPLETE;
         if (lvl < currentStates.Length)
             currentStates[lvl] = ProgressState.NOT_COMPLETE;
-    }
-
-    public static void SetProgressState(ProgressState[] progress)
-    {
-        currentStates = progress;
     }
 }
