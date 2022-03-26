@@ -14,19 +14,13 @@ public class LvlThreeController : GameController
         StartCoroutine(Prepare());
         PlayerLogic.PlayerDiedEvent += Failed;
         Trap.TrapWasWorked += TalkAboutTrap;
-        Enemy.EnemyDied += CheckEnemyCount;
+        Enemy.EnemyDiedEvent += CheckEnemyCount;
     }
 
     private void OnDestroy()
     {
         PlayerLogic.PlayerDiedEvent -= Failed;
-        Enemy.EnemyDied -= CheckEnemyCount;
-    }
-
-    private void TalkAboutTrap()
-    {
-        dialog.StartDialog(XmlParser.GetTextFromXml(3, 1));
-        Trap.TrapWasWorked -= TalkAboutTrap;
+        Enemy.EnemyDiedEvent -= CheckEnemyCount;
     }
 
     IEnumerator Prepare()
@@ -39,9 +33,16 @@ public class LvlThreeController : GameController
         death.enabled = true;
     }
 
-    private void CheckEnemyCount(Enemy enemy)
+    private void TalkAboutTrap()
     {
-        enemies.Remove(enemy);
+        dialog.StartDialog(XmlParser.GetTextFromXml(3, 1));
+        Trap.TrapWasWorked -= TalkAboutTrap;
+    }
+
+
+    private void CheckEnemyCount()
+    {
+        enemies.RemoveAt(0);
         if (enemies.Count == 0)
             Victory();
     }

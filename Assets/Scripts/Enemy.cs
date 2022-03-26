@@ -20,7 +20,6 @@ public class Enemy : MonoBehaviour, IGetDamage
     private float hp = 100;
 
     public static event System.Action EnemyDiedEvent;
-    public static event System.Action<Enemy> EnemyDied;
 
     void Start()
     {
@@ -43,6 +42,11 @@ public class Enemy : MonoBehaviour, IGetDamage
         GameController.FailedEvent -= OnPlayerFailed;
     }
 
+    private void OnPlayerFailed()
+    {
+        canShoot = false;
+    }
+
     private void Update()
     {
         if (target == null)
@@ -50,14 +54,11 @@ public class Enemy : MonoBehaviour, IGetDamage
 
         transform.LookAt(target);
 
+        // Если враг статичен, то он не может двигаться
         if (isStatic)
         {
             if (canShoot)
-            {
-                shootComponent.Shoot(agent.transform.position + enemyCollider.center, target.position);
-                canShoot = false;
-                Invoke("Reload", delayTime);
-            }
+                Attack();
         }
         else
         {
@@ -69,15 +70,18 @@ public class Enemy : MonoBehaviour, IGetDamage
                 animator.SetTrigger("Idle");
 
                 if (canShoot)
-                {
-                    shootComponent.Shoot(agent.transform.position + enemyCollider.center, target.position);
-                    canShoot = false;
-                    Invoke("Reload", delayTime);
-                }
+                    Attack();
             }
             else
                 animator.SetTrigger("Run");
         }
+    }
+
+    private void Attack()
+    {
+        shootComponent.Shoot(agent.transform.position + enemyCollider.center, target.position);
+        canShoot = false;
+        Invoke("Reload", delayTime);
     }
 
     private void Reload()
@@ -91,13 +95,9 @@ public class Enemy : MonoBehaviour, IGetDamage
         if (hp <= 0)
         {
             EnemyDiedEvent?.Invoke();
-            EnemyDied?.Invoke(this);
             Destroy(this.gameObject);
         }
     }
 
-    private void OnPlayerFailed()
-    {
-        canShoot = false;
-    }
+ 
 }
