@@ -24,6 +24,8 @@ public class GameController : MonoBehaviour
 
     public void Victory()
     {
+        int lvlNumber = int.Parse(SceneManager.GetActiveScene().name.Substring(4));
+        Progress.CompleteLvl(lvlNumber);
         VictoryEvent?.Invoke();
         Destroy(FindObjectOfType<PlayerLogic>().gameObject);
     }
